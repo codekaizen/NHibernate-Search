@@ -19,7 +19,7 @@ namespace NHibernate.Search.Query
 
     public class FullTextQueryImpl : QueryImpl, IFullTextQuery
     {
-		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(FullTextQueryImpl));
+        private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(FullTextQueryImpl));
         private readonly Dictionary<string, FullTextFilterImpl> filterDefinitions;
         private readonly Lucene.Net.Search.Query luceneQuery;
         private System.Type[] classes;
@@ -83,7 +83,7 @@ namespace NHibernate.Search.Query
 
                 try
                 {
-                    Hits hits = GetHits(searcher);
+                    var hits = GetHits(searcher);
                     SetResultSize(hits);
                     int first = First();
                     int max = Max(first, hits);
@@ -208,7 +208,7 @@ namespace NHibernate.Search.Query
                         else
                             try
                             {
-                                resultSize = GetHits(searcher).Length();
+                                resultSize = GetHits(searcher).TotalHits;
                             }
                             catch (IOException e)
                             {
@@ -262,7 +262,7 @@ namespace NHibernate.Search.Query
 
                 try
                 {
-                    Hits hits = GetHits(searcher);
+                    var hits = GetHits(searcher);
                     SetResultSize(hits);
                     int first = First();
                     int max = Max(first, hits);
@@ -397,15 +397,15 @@ namespace NHibernate.Search.Query
             return this;
         }
 
-        private Hits GetHits(Searcher searcher)
+        private TopFieldDocs GetHits(Searcher searcher)
         {
             using (new SessionIdLoggingContext(Session.SessionId))
             {
                 LogQuery();
                 Lucene.Net.Search.Query query = FullTextSearchHelper.FilterQueryByClasses(classesAndSubclasses, luceneQuery);
                 BuildFilters();
-                Hits hits = searcher.Search(query, this.filter, this.sort);
-                log.DebugFormat("Lucene query returned {0} results", hits.Length());
+                var hits = searcher.Search(query, this.filter, Selection.MaxRows, this.sort);
+                log.DebugFormat("Lucene query returned {0} results", hits.TotalHits);
                 this.SetResultSize(hits);
 
                 return hits;
@@ -567,7 +567,7 @@ namespace NHibernate.Search.Query
 
                 try
                 {
-                    SearchFactory.ReaderProvider.CloseReader(searcher.GetIndexReader());
+                    SearchFactory.ReaderProvider.CloseReader(searcher.IndexReader);
                     searcher.Close();
                 }
                 catch (IOException e)
@@ -583,19 +583,21 @@ namespace NHibernate.Search.Query
             return FullTextSearchHelper.BuildSearcher(SearchFactory, out classesAndSubclasses, classes);
         }
 
-        private int Max(int first, Hits hits)
+        private int Max(int first, TopFieldDocs hits)
         {
+            var length = hits.TotalHits;
+
             if (Selection.MaxRows == NHibernate.Engine.RowSelection.NoValue)
             {
-                return hits.Length() - 1;
+                return length - 1;
             }
 
-            if (Selection.MaxRows + first < hits.Length())
+            if (Selection.MaxRows + first < length)
             {
                 return first + Selection.MaxRows - 1;
             }
 
-            return hits.Length() - 1;
+            return length - 1;
         }
 
         private int First()
@@ -603,9 +605,9 @@ namespace NHibernate.Search.Query
             return Selection.FirstRow != NHibernate.Engine.RowSelection.NoValue ? Selection.FirstRow : 0;
         }
 
-        private void SetResultSize(Hits hits)
+        private void SetResultSize(TopFieldDocs topDocs)
         {
-            resultSize = hits.Length();
+            resultSize = topDocs.TotalHits;
         }
 
         #region Nested type: ImplFilterKey

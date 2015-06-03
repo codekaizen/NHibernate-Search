@@ -28,11 +28,12 @@ namespace NHibernate.Search.Engine
             return entityInfo;
         }
 
-        public EntityInfo Extract(Hits hits, int index)
+        public EntityInfo Extract(TopFieldDocs docs, int index)
         {
-            Document doc = hits.Doc(index);
-            //TODO if we are lonly looking for score (unlikely), avoid accessing doc (lazy load)
-            EntityInfo entityInfo = Extract(doc);
+            var topDoc = docs.ScoreDocs[index];
+            
+            // TODO: if we are only looking for score (unlikely), avoid accessing doc (lazy load)
+            EntityInfo entityInfo = Extract(topDoc.);
             object[] eip = entityInfo.Projection;
 
             if (eip != null && eip.Length > 0)
@@ -42,7 +43,7 @@ namespace NHibernate.Search.Engine
                     switch (projection[x])
                     {
                         case ProjectionConstants.SCORE:
-                            eip[x] = hits.Score(index);
+                            eip[x] = topDoc.Score;
                             break;
 
                         case ProjectionConstants.ID:
@@ -50,15 +51,15 @@ namespace NHibernate.Search.Engine
                             break;
 
                         case ProjectionConstants.DOCUMENT:
-                            eip[x] = doc;
+                            eip[x] = topDoc;
                             break;
 
                         case ProjectionConstants.DOCUMENT_ID:
-                            eip[x] = hits.Id(index);
+                            eip[x] = topDoc.Doc;
                             break;
 
                         case ProjectionConstants.BOOST:
-                            eip[x] = doc.GetBoost();
+                            eip[x] = topDoc.;
                             break;
 
                         case ProjectionConstants.THIS:

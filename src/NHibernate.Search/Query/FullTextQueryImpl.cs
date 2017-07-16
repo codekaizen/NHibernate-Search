@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Lucene.Net.Search;
-using NHibernate.Engine;
 using NHibernate.Engine.Query;
 using NHibernate.Impl;
 using NHibernate.Search.Engine;
@@ -397,16 +396,27 @@ namespace NHibernate.Search.Query
             return this;
         }
 
-        private Hits GetHits(Searcher searcher)
+        private Hits GetHits(IndexSearcher searcher)
         {
             using (new SessionIdLoggingContext(Session.SessionId))
             {
                 LogQuery();
-                Lucene.Net.Search.Query query = FullTextSearchHelper.FilterQueryByClasses(classesAndSubclasses, luceneQuery);
+
+                var query = FullTextSearchHelper.FilterQueryByClasses(classesAndSubclasses, luceneQuery);
                 BuildFilters();
-                Hits hits = searcher.Search(query, this.filter, this.sort);
+                Hits hits;
+                if (sort != null)
+                {
+                    searcher.SetDefaultFieldSortScoring(true, true);
+                    hits = searcher.Search(query, filter, sort);
+                }
+                else
+                {
+                    hits = searcher.Search(query, filter);
+                }
+                SetResultSize(hits);
+
                 log.DebugFormat("Lucene query returned {0} results", hits.Length());
-                this.SetResultSize(hits);
 
                 return hits;
             }

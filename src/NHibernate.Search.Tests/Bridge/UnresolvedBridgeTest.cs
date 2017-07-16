@@ -20,7 +20,7 @@ namespace NHibernate.Search.Tests.Bridge
             tempCfg.Configure();
             tempCfg.SetProperty("hibernate.search.default.directory_provider", typeof(RAMDirectoryProvider).AssemblyQualifiedName);
             tempCfg.AddClass(typeof(Gangster));
-			Assert.Throws<HibernateException>(()=>tempCfg.BuildSessionFactory(),"Unable to guess IFieldBridge for Id");
+            Assert.Throws<HibernateException>(()=>tempCfg.BuildSessionFactory(),"Unable to guess IFieldBridge for Id");
         }
     }
 }

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>NHibernate.Search.Esha</id>
-    <version>2.0.5.0</version>
+    <version>2.0.5.1000</version>
     <title>NHibernate Search</title>
     <authors>NHibernate Community</authors>
     <owners>ESHA Research, Inc.</owners>
@@ -10,10 +10,10 @@
     <description>NHibernate Search brings the power of full text search engines to the persistence domain model by combining NHibernate with the capabilities of the Lucene.Net search engine. This package contains NHibernate.Search.dll 2.0.5, specifically for use by ESHA Research.</description>
     <language>en-US</language>
     <projectUrl>https://github.com/rdavanzo/NHibernate-Search</projectUrl>
-    <copyright>Copyright © ESHA Research, Incorporated. 2014</copyright>
+    <copyright>Copyright © ESHA Research, Incorporated. 2017</copyright>
     <tags>NHibernate Search Lucene FullText Text</tags>
     <dependencies>
-      <dependency id="NHibernate" version="3.4.1.4000" />
+      <dependency id="NHibernate" version="4.4.1.4000" />
       <dependency id="Lucene.Net.Esha" version="2.9.4.2" />
     </dependencies>
   </metadata>

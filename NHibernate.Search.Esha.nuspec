@@ -13,7 +13,7 @@
     <copyright>Copyright © ESHA Research, Incorporated. 2017</copyright>
     <tags>NHibernate Search Lucene FullText Text</tags>
     <dependencies>
-      <dependency id="NHibernate" version="4.4.1.4000" />
+      <dependency id="NHibernate" version="4.1.1.4000" />
       <dependency id="Lucene.Net.Esha" version="2.9.4.2" />
     </dependencies>
   </metadata>

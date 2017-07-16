@@ -12,7 +12,7 @@ namespace NHibernate.Search.Event
     public class FullTextIndexCollectionEventListener : FullTextIndexEventListener, 
                                     IPostCollectionRecreateEventListener, IPostCollectionRemoveEventListener, IPostCollectionUpdateEventListener
     {
-		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(FullTextIndexCollectionEventListener));
+        private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(FullTextIndexCollectionEventListener));
 
         #region Public methods
 
@@ -40,7 +40,7 @@ namespace NHibernate.Search.Event
             object id = @event.AffectedOwnerIdOrNull;
             if (id == null)
             {
-			    // most likely this recovery is unnecessary since Hibernate Core probably try that 
+                // most likely this recovery is unnecessary since Hibernate Core probably try that 
                 EntityEntry entityEntry = (EntityEntry) @event.Session.PersistenceContext.EntityEntries[entity];
                 id = entityEntry == null ? null : entityEntry.Id;
             }

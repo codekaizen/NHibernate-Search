@@ -19,7 +19,7 @@ namespace NHibernate.Search.Mapping.AttributeBased
     using Type = System.Type;
     
     public class AttributeSearchMappingBuilder {
-		private static readonly IInternalLogger logger = LoggerProvider.LoggerFor(typeof(AttributeSearchMappingBuilder));
+        private static readonly IInternalLogger logger = LoggerProvider.LoggerFor(typeof(AttributeSearchMappingBuilder));
 
         private int level;
         private int maxLevel = int.MaxValue;
@@ -30,11 +30,11 @@ namespace NHibernate.Search.Mapping.AttributeBased
         {
             public BuildContext()
             {
-                this.Processed = new HashedSet<Type>();
+                this.Processed = new HashSet<Type>();
             }
 
             public DocumentMapping Root { get; set; }
-            public Iesi.Collections.Generic.ISet<System.Type> Processed { get; private set; }
+            public ISet<System.Type> Processed { get; private set; }
         }
 
         #endregion

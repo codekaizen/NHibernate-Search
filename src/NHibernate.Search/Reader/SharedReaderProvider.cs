@@ -16,7 +16,7 @@ namespace NHibernate.Search.Reader
     /// </summary>
     public class SharedReaderProvider : IReaderProvider
     {
-		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(SharedReaderProvider));
+        private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(SharedReaderProvider));
         private static FieldInfo subReadersField;
 
         /// <summary>
@@ -57,9 +57,9 @@ namespace NHibernate.Search.Reader
             bool closeOutOfDateReader = false;
             IndexReader reader;
             /**
-		     * Since out of lock protection, can have multiple readers created in //
-		     * not worse than NotShared and limit the locking time, hence scalability
-		     */
+             * Since out of lock protection, can have multiple readers created in //
+             * not worse than NotShared and limit the locking time, hence scalability
+             */
             try
             {
                 reader = IndexReader.Open(directoryProvider.Directory);
@@ -331,8 +331,8 @@ namespace NHibernate.Search.Reader
                                                                BindingFlags.IgnoreCase);
             }
 
-            HashedSet<IDirectoryProvider> providers =
-                new HashedSet<IDirectoryProvider>(searchFactoryImplementor.GetLockableDirectoryProviders().Keys);
+            var providers =
+                new HashSet<IDirectoryProvider>(searchFactoryImplementor.GetLockableDirectoryProviders().Keys);
             perDirectoryProviderManipulationLocks = new Dictionary<IDirectoryProvider, object>();
             foreach (IDirectoryProvider dp in providers)
                 perDirectoryProviderManipulationLocks[dp] = new object();

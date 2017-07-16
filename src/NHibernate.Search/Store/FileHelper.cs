@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using Iesi.Collections.Generic;
 
@@ -6,7 +7,7 @@ namespace NHibernate.Search.Store
     public class FileHelper
     {
         private const int LastWriteTimePrecision = 2000;
-		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(FileHelper));
+        private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(FileHelper));
 
         public static void Synchronize(DirectoryInfo source, DirectoryInfo destination, bool smart)
         {
@@ -16,7 +17,7 @@ namespace NHibernate.Search.Store
             }
 
             FileInfo[] sources = source.GetFiles();
-            ISet<string> srcNames = new HashedSet<string>();
+            ISet<string> srcNames = new HashSet<string>();
             foreach (FileInfo fileInfo in sources)
             {
                 srcNames.Add(fileInfo.Name);

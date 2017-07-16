@@ -10,8 +10,8 @@ namespace NHibernate.Search.Backend.Impl
         private IQueueingProcessor queueingProcessor;
         private WeakHashtable queuePerTransaction;
         /**
-		 * in transaction work
-		 */
+         * in transaction work
+         */
 
         public PostTransactionWorkQueueSynchronization(IQueueingProcessor queueingProcessor,
                                                        WeakHashtable queuePerTransaction)

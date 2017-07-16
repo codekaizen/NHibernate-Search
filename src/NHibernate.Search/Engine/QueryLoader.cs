@@ -6,7 +6,7 @@ namespace NHibernate.Search.Engine
 {
     public class QueryLoader : ILoader
     {
-		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(QueryLoader));
+        private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(QueryLoader));
         private static readonly IList EMPTY_LIST = new ArrayList();
         private const int MAX_IN_CLAUSE = 500;
 
@@ -60,8 +60,8 @@ namespace NHibernate.Search.Engine
             for (int index = 0; index < loop; index++)
             {
                 int max = index * MAX_IN_CLAUSE + MAX_IN_CLAUSE <= maxResults ?
-					index * MAX_IN_CLAUSE + MAX_IN_CLAUSE :
-					maxResults;
+                    index * MAX_IN_CLAUSE + MAX_IN_CLAUSE :
+                    maxResults;
                 IList ids = new ArrayList(max - index*MAX_IN_CLAUSE);
                 for (int entityInfoIndex = index * MAX_IN_CLAUSE; entityInfoIndex < max; entityInfoIndex++)
                 {

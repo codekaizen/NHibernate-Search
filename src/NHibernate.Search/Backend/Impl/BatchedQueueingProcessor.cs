@@ -84,12 +84,12 @@ namespace NHibernate.Search.Backend.Impl
             int initialSize = queue.Count;
             List<LuceneWork> luceneQueue = new List<LuceneWork>(initialSize); //TODO load factor for containedIn
             /**
-			 * Collection work type are processed second, so if the owner entity has already been processed for whatever reason
-			 * the work will be ignored.
-			 * However if the owner entity has not been processed, an "UPDATE" work is executed
-			 *
-			 * Processing collection works last is mandatory to avoid reindexing a object to be deleted
-			 */
+             * Collection work type are processed second, so if the owner entity has already been processed for whatever reason
+             * the work will be ignored.
+             * However if the owner entity has not been processed, an "UPDATE" work is executed
+             *
+             * Processing collection works last is mandatory to avoid reindexing a object to be deleted
+             */
             ProcessWorkByLayer(queue, initialSize, luceneQueue, Layer.FIRST);
             ProcessWorkByLayer(queue, initialSize, luceneQueue, Layer.SECOND);
             workQueue.SetSealedQueue(luceneQueue);
